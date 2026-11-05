@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="以宝宝出生日期为起点的成长时间轴，列出从出生到3岁的重要照护事项。">
+    <title>宝宝使用说明书 · 成长时间轴</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-decoration decoration-one"></div>
+    <div class="page-decoration decoration-two"></div>
+
+    <div class="container">
+        <header class="hero">
+            <div class="hero-flower" id="heroFlower" aria-hidden="true">🌸</div>
+            <p class="eyebrow" id="heroGreeting">我们的宝宝 · 成长大事记</p>
+            <h1>宝宝使用说明书</h1>
+            <p class="subtitle">不赶路，不错过。把重要的日子，一件件温柔记下。</p>
+
+            <div class="baby-info" aria-label="宝宝基本信息">
+                <div class="info-item">
+                    <span class="info-icon" id="babyIcon" aria-hidden="true">🎀</span>
+                    <div><small><span id="sexDisplay">女宝宝</span> · 宝宝称呼</small><strong id="babyDisplay">宝宝</strong></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon" aria-hidden="true">🎂</span>
+                    <div><small>出生日期</small><strong id="birthDateDisplay">2026年1月1日</strong></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon" aria-hidden="true">🌱</span>
+                    <div><small>今天</small><strong id="currentAge">正在计算…</strong></div>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon" aria-hidden="true">☀️</span>
+                    <div><small>来到世界</small><strong id="daysAlive">正在计算…</strong></div>
+                </div>
+            </div>
+
+            <details class="profile-settings">
+                <summary>自定义宝宝信息 <span>含记录备份，分享给其他家庭时也可使用</span></summary>
+                <form id="profileForm">
+                    <label>宝宝性别
+                        <select id="sexInput" required>
+                            <option value="female">女宝宝</option>
+                            <option value="male">男宝宝</option>
+                        </select>
+                    </label>
+                    <label>宝宝出生日期
+                        <input id="birthDateInput" type="date" value="2026-01-01" required>
+                    </label>
+                    <label>宝宝称呼
+                        <input id="nicknameInput" type="text" value="宝宝" maxlength="12" placeholder="例如：小棉袄" required>
+                    </label>
+                    <button class="primary-button" type="submit">保存并重算时间轴</button>
+                </form>
+                <div class="backup-panel" aria-labelledby="backupTitle">
+                    <div class="backup-copy">
+                        <strong id="backupTitle">记录备份与迁移</strong>
+                        <p>导出当前宝宝的资料和勾选记录；换设备后选择备份文件导入。</p>
+                    </div>
+                    <div class="backup-actions">
+                        <button id="exportData" class="backup-button" type="button">导出当前记录</button>
+                        <button id="importData" class="backup-button" type="button">导入记录</button>
+                        <input id="importFile" type="file" accept="application/json,.json" hidden>
+                    </div>
+                    <p id="backupStatus" class="backup-status" role="status" aria-live="polite"></p>
+                </div>
+                <p>🔒 信息仅保存在当前浏览器，不会上传；备份文件含宝宝生日与称呼，请妥善保管。</p>
+            </details>
+        </header>
+
+        <section class="now-card" aria-labelledby="nowTitle">
+            <div class="now-main">
+                <p class="section-kicker">此时此刻</p>
+                <h2 id="nowTitle">正在定位宝宝当前阶段…</h2>
+                <p id="nowDescription"></p>
+                <button id="jumpCurrent" class="primary-button" type="button">查看本月要做的事 <span aria-hidden="true">↓</span></button>
+            </div>
+            <div class="next-card">
+                <span class="next-icon" aria-hidden="true">📌</span>
+                <div>
+                    <small>下一个重要节点</small>
+                    <strong id="nextTitle">正在计算…</strong>
+                    <p id="nextDate"></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="vaccine-guide" aria-labelledby="vaccineGuideTitle">
+            <div class="guide-heading">
+                <div>
+                    <p class="section-kicker">重点工具 · 疫苗选择</p>
+                    <h2 id="vaccineGuideTitle">国产与进口，怎么比较？</h2>
+                    <p>先看预防范围和接种时间窗，再看剂次与预算。所有获批疫苗均需符合安全和质量标准，不把“进口”直接等同于“更有效”。</p>
+                </div>
+                <span class="verified-badge">资料核对至 2026.11.05</span>
+            </div>
+
+            <div class="table-scroll">
+                <table class="vaccine-table">
+                    <thead>
+                        <tr><th>疫苗</th><th>可选方案</th><th>效果与关键差别</th><th>公开价格样例</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>13价肺炎球菌结合疫苗</strong><span class="table-tag">自费 · 尽早咨询</span></td>
+                            <td>国产：民海、沃森等<br>进口：辉瑞</td>
+                            <td>均覆盖13种肺炎球菌血清型；不同产品的载体、起始月龄和程序可能不同。没有足够依据笼统认定进口效果更好，也不预防所有肺炎。</td>
+                            <td>公开样例疫苗费：国产民海468元、沃森608元，进口辉瑞708元/剂；广州另按现行政策计21元/剂服务费，门诊确认。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>轮状病毒疫苗</strong><span class="table-tag">自费 · 时间窗严格</span></td>
+                            <td>国产：三价、六价等<br>进口：五价</td>
+                            <td>均用于预防轮状病毒胃肠炎，覆盖型别与接种时间窗不同。国产六价已于2025年获批，覆盖G1、G2、G3、G4、G8、G9；不代表价数越多就越适合每个宝宝，需先看首剂与末剂年龄限制。</td>
+                            <td>第三方整理的广东2026目录参考疫苗费：国产三价218元、六价298元，进口五价280元/剂；另计21元服务费，需门诊复核。</td>
+                        </tr>
+                        <tr>
+                            <td><strong>百白破/脊灰/Hib</strong><span class="table-tag">免费或联合方案</span></td>
+                            <td>国家免疫规划疫苗免费分开接种，Hib可按需自费<br>常见五联为进口产品</td>
+                            <td>免费方案可完成核心疾病预防；五联同时覆盖百白破、脊灰和Hib，主要优势是减少注射与往返。联合方案需与门诊核对，避免重复或漏种。</td>
+                            <td>免疫规划疫苗免费；进口五联按广东2023公开报道疫苗费599元/剂＋广州21元服务费估算，4剂约2480元；2026实际价格需重新询价。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="price-note">
+                <strong>广州价格说明：</strong>广东省现行非免疫规划疫苗接种服务费为21元/剂次（含耗材）。上表疫苗费来自公开价格样例或目录整理，并非广州2026统一报价；预约前请门诊列出“厂家 + 产品名 + 单剂总价 + 全程剂次 + 最晚接种年龄”。
+                <a href="#sources">查看依据 ↓</a>
+            </div>
+            <div id="rotaAlert" class="time-alert"></div>
+
+            <div class="budget-panel">
+                <div class="budget-heading">
+                    <div>
+                        <p class="section-kicker">广州版 · 0—3岁</p>
+                        <h3>疫苗总体预算计算器</h3>
+                    </div>
+                    <span>免疫规划疫苗：免费</span>
+                </div>
+                <div class="budget-controls">
+                    <label>百白破 / 脊灰 / Hib方案
+                        <select id="budgetCombo">
+                            <option value="0">免费基础方案（Hib另计）｜0元</option>
+                            <option value="2480">进口五联｜4剂 × 约620元 ≈ 2480元</option>
+                        </select>
+                    </label>
+                    <label>13价肺炎球菌疫苗
+                        <select id="budgetPcv">
+                            <option value="0">暂不纳入本次预算</option>
+                            <option value="1956">国产民海｜4剂 × 约489元 ≈ 1956元</option>
+                            <option value="2516">国产沃森｜4剂 × 约629元 ≈ 2516元</option>
+                            <option value="2916">进口辉瑞｜4剂 × 约729元 ≈ 2916元</option>
+                        </select>
+                    </label>
+                    <label>轮状病毒疫苗
+                        <select id="budgetRota">
+                            <option value="0">暂不纳入本次预算</option>
+                            <option value="717">国产三价｜3剂 × 约239元 ≈ 717元</option>
+                            <option value="957">国产六价｜3剂 × 约319元 ≈ 957元</option>
+                            <option value="903">进口五价｜3剂 × 约301元 ≈ 903元</option>
+                        </select>
+                    </label>
+                    <label>其他自费疫苗预留
+                        <span class="money-input"><span>¥</span><input id="budgetOther" type="number" min="0" max="100000" step="100" value="0" inputmode="numeric" aria-label="其他自费疫苗预留金额"></span>
+                    </label>
+                </div>
+                <div class="budget-total">
+                    <div><small>所选项目参考总预算</small><strong id="budgetTotal">¥0</strong></div>
+                    <p id="budgetBreakdown">当前仅选择免费基础方案，未选其他自费项目。</p>
+                </div>
+                <p class="budget-disclaimer">预算按页面参考疫苗费＋广州21元/剂服务费计算，默认4剂PCV13、4剂五联、3剂轮状方案。实际剂次会受起始月龄、既往接种和产品说明书影响；“其他预留”可填写水痘、流感、EV71、Hib等门诊报价。此结果是家庭预算，不是接种处方。</p>
+            </div>
+        </section>
+
+        <section class="timeline-section" aria-labelledby="timelineTitle">
+            <div class="timeline-heading">
+                <div>
+                    <p class="section-kicker">从出生到3岁</p>
+                    <h2 id="timelineTitle">成长时间轴</h2>
+                    <p>每个节点都有具体日期；点开卡片查看并勾选完成事项。</p>
+                </div>
+                <div class="progress-wrap" aria-label="事项完成进度">
+                    <span id="progressText">已完成 0 项</span>
+                    <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+                </div>
+            </div>
+
+            <div class="timeline-tools">
+                <div class="filters" role="group" aria-label="按月龄筛选时间节点">
+                    <button class="filter-button active" data-filter="all" type="button">全部节点</button>
+                    <button class="filter-button" data-filter="early" type="button">0—6月龄</button>
+                    <button class="filter-button" data-filter="infant" type="button">6—12月龄</button>
+                    <button class="filter-button" data-filter="toddler" type="button">1—2岁</button>
+                    <button class="filter-button" data-filter="preschool" type="button">2—3岁</button>
+                </div>
+                <button id="expandAll" class="text-button" type="button">展开全部</button>
+            </div>
+
+            <div id="timeline" class="timeline" aria-live="polite"></div>
+            <p id="emptyState" class="empty-state" hidden>这个阶段暂时没有更多节点。</p>
+        </section>
+
+        <aside class="safety-note">
+            <span class="safety-icon" aria-hidden="true">💗</span>
+            <div>
+                <h2>时间可以灵活，安全不能打折</h2>
+                <p>日期用于帮助规划，不代表所有宝宝必须在同一天达到某项能力。疫苗、体检与补充剂请按当地儿保及接种门诊安排；如宝宝出现呼吸困难、抽搐、意识反应差、明显脱水等紧急情况，应立即就医。</p>
+            </div>
+        </aside>
+
+        <section id="sources" class="sources" aria-labelledby="sourcesTitle">
+            <div class="guide-heading">
+                <div>
+                    <p class="section-kicker">可追溯 · 已做交叉核对</p>
+                    <h2 id="sourcesTitle">权威资料与验证范围</h2>
+                    <p>优先使用国家疾控局、中国疾控中心、中国营养学会、WHO及CDC资料。价格另以地方政府或接种门诊公示交叉核对。</p>
+                </div>
+            </div>
+            <div class="source-grid">
+                <article class="source-card">
+                    <span class="source-number">01</span>
+                    <h3>疫苗程序</h3>
+                    <p>2026版国家免疫程序与中国疾控/国家疾控局解读互核。已采用百白破2、4、6、18月龄新程序。</p>
+                    <a href="https://www.ndcpa.gov.cn/jbkzzx/c100014/2073005020766703616/BXZA3kH5.pdf" target="_blank" rel="noopener noreferrer">国家疾控局：2026版免疫程序</a>
+                    <a href="https://www.chinacdc.cn/jkyj/mygh02/yfjzfw/mycx/202607/t20260709_1837982.html" target="_blank" rel="noopener noreferrer">中国疾控：2026版解读</a>
+                    <a href="https://www.ndcpa.gov.cn/jbkzzx/c100040/common/content/content_1877524874852421632.html" target="_blank" rel="noopener noreferrer">国家疾控局：百白破程序调整问答</a>
+                </article>
+                <article class="source-card">
+                    <span class="source-number">02</span>
+                    <h3>饮食与补充</h3>
+                    <p>中国营养学会2022指南与WHO 2023指南互核：满6月龄左右添加辅食、优先富铁食物、顺应喂养、限制盐糖。</p>
+                    <a href="http://dg.cnsoc.org/article/04/8a2389fd5520b4f30155a5c7b7d421c2.html" target="_blank" rel="noopener noreferrer">中国营养学会：0—6月龄</a>
+                    <a href="http://dg.cnsoc.org/article/04/8a2389fd5520b4f30155a5d4d78621c4.html" target="_blank" rel="noopener noreferrer">中国营养学会：7—24月龄</a>
+                    <a href="https://www.who.int/publications/i/item/9789240081864" target="_blank" rel="noopener noreferrer">WHO：6—23月龄辅食指南</a>
+                </article>
+                <article class="source-card">
+                    <span class="source-number">03</span>
+                    <h3>行为习惯与安全</h3>
+                    <p>国家0—3岁养育指南、WHO活动睡眠指南与CDC安全睡眠资料互核，强调回应、规律、安全和真实亲子互动。</p>
+                    <a href="https://www.gov.cn/zhengce/202212/content_6717467.htm" target="_blank" rel="noopener noreferrer">中国政府网：3岁以下健康养育照护指南</a>
+                    <a href="https://www.who.int/publications/i/item/9789241550536" target="_blank" rel="noopener noreferrer">WHO：5岁以下活动、静态行为与睡眠</a>
+                    <a href="https://archive.cdc.gov/www_cdc_gov/vitalsigns/safesleep/infographic.html" target="_blank" rel="noopener noreferrer">CDC：婴儿安全睡眠</a>
+                </article>
+                <article class="source-card">
+                    <span class="source-number">04</span>
+                    <h3>疫苗比较与价格</h3>
+                    <p>广州服务费采用广东省现行官方标准；疫苗费参考公开公示或目录整理，六价产品另与药监局批准信息核对。未能官方复核的广州2026单价均标为“待门诊确认”。</p>
+                    <a href="https://drc.gd.gov.cn/gkmlpt/content/3/3578/post_3578661.html" target="_blank" rel="noopener noreferrer">广东省发改委：21元/剂服务费</a>
+                    <a href="https://www.nmpa.gov.cn/directory/web/nmpa/zhuanti/cxylqx/cxypxx/20250822150555120.html" target="_blank" rel="noopener noreferrer">国家药监局：国产六价轮状疫苗获批</a>
+                    <a href="https://vaxclinic.cn/vaccine-catalog/c/rotavirus/" target="_blank" rel="noopener noreferrer">广东轮状疫苗目录整理价（第三方）</a>
+                    <a href="https://health.sina.cn/news/2023-02-20/detail-imyhiqcv5293346.d.html?from=wap" target="_blank" rel="noopener noreferrer">广东五联599元历史价格报道（2023）</a>
+                    <a href="http://www.ycq.gov.cn/zwgk/gkzt/ggqsygk/wsjkly/ycqjbyfkzzx/zzbs/202505/t20250520_2137708.html" target="_blank" rel="noopener noreferrer">13价肺炎公开价格样例</a>
+                </article>
+            </div>
+            <p class="verification-note">验证结论：对相同核心建议保留；存在版本或地区差异的项目均标注“以现行说明书/当地门诊为准”，未用商业宣传替代效果证据。</p>
+        </section>
+
+        <footer>
+            <p>每个宝宝都有自己的节奏，里程碑是观察线索，不是考试。</p>
+            <p class="footer-note" id="footerNote">为我们的宝宝，认真爱，慢慢陪。🌷</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
