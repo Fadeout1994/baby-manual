@@ -57,4 +57,7 @@ index.html   页面结构与疫苗比较工具
 styles.css   柔和配色、纵向时间轴及移动端布局
 script.js    时间节点、动态年龄、预算及本地存储
 README.md    使用与部署说明
+HANDOFF.md   开发交接说明（维护者阅读）
 ```
+
+开发与维护交接详情见 `HANDOFF.md`。

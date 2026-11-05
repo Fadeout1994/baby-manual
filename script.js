@@ -237,7 +237,7 @@ function loadProfile() {
 
     const sex = saved.sex === 'male' ? 'male' : 'female';
     const savedNickname = String(saved.nickname || '').trim().slice(0, 12);
-    const isLegacyDefault = !savedNickname || ['小公主', '小王子'].includes(savedNickname);
+    const isLegacyDefault = !savedNickname || savedNickname === '小公主';
     return {
       birthDate: saved.birthDate,
       sex,
@@ -644,7 +644,7 @@ function initProfile() {
     const currentNickname = nicknameInput.value.trim();
     const defaultNicknames = [
       ...Object.values(SEX_PROFILE).map(profile => profile.defaultNickname),
-      '宝宝', '小公主', '小王子'
+      '宝宝', '小公主'
     ];
     if (!currentNickname || defaultNicknames.includes(currentNickname)) {
       nicknameInput.value = SEX_PROFILE[sexInput.value].defaultNickname;
