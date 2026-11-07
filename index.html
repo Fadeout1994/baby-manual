@@ -77,12 +77,22 @@
                 <p id="nowDescription"></p>
                 <button id="jumpCurrent" class="primary-button" type="button">查看本月要做的事 <span aria-hidden="true">↓</span></button>
             </div>
-            <div class="next-card">
-                <span class="next-icon" aria-hidden="true">📌</span>
-                <div>
-                    <small>下一个重要节点</small>
-                    <strong id="nextTitle">正在计算…</strong>
-                    <p id="nextDate"></p>
+            <div class="now-side">
+                <div class="next-card">
+                    <span class="next-icon" aria-hidden="true">📌</span>
+                    <div>
+                        <small>下一个重要节点</small>
+                        <strong id="nextTitle">正在计算…</strong>
+                        <p id="nextDate"></p>
+                    </div>
+                </div>
+                <div class="checkup-card" aria-live="polite">
+                    <span class="checkup-icon" aria-hidden="true">🩺</span>
+                    <div>
+                        <small>下一次儿保检查</small>
+                        <strong id="nextCheckupTitle">正在计算…</strong>
+                        <p id="nextCheckupDate"></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -187,8 +197,9 @@
             </div>
 
             <div class="timeline-tools">
-                <div class="filters" role="group" aria-label="按月龄筛选时间节点">
+                <div class="filters" role="group" aria-label="按条件筛选时间节点">
                     <button class="filter-button active" data-filter="all" type="button">全部节点</button>
+                    <button class="filter-button" data-filter="checkup" type="button">🩺 儿保检查日</button>
                     <button class="filter-button" data-filter="early" type="button">0—6月龄</button>
                     <button class="filter-button" data-filter="infant" type="button">6—12月龄</button>
                     <button class="filter-button" data-filter="toddler" type="button">1—2岁</button>
@@ -199,6 +210,170 @@
 
             <div id="timeline" class="timeline" aria-live="polite"></div>
             <p id="emptyState" class="empty-state" hidden>这个阶段暂时没有更多节点。</p>
+        </section>
+
+        <section class="childcare-guide" aria-labelledby="childcareTitle">
+            <div class="guide-heading">
+                <div>
+                    <p class="section-kicker">儿保指南 · 0—3岁</p>
+                    <h2 id="childcareTitle">定期体检与发育监测</h2>
+                    <p>体检频次依据《国家基本公共卫生服务规范（第三版）》0—6岁儿童健康管理整理；生长评估参考 WS/T 423—2022 与 WHO 标准；发育观察点参考 WS/T 580—2017 的评估领域，仅作提醒，不替代专业测评。</p>
+                </div>
+                <span class="verified-badge">依据国家规范整理 · 以当地门诊为准</span>
+            </div>
+
+            <div class="childcare-grid">
+                <div class="childcare-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">🏥</span>
+                        <h3>体检时间表</h3>
+                    </div>
+                    <ul class="checklist">
+                        <li><strong>出生后1周内：</strong>新生儿家庭访视（按社区预约，体重、黄疸、脐部、喂养）</li>
+                        <li><strong>满月：</strong>满月健康管理、生长与视听反应评估、髋关节检查</li>
+                        <li><strong>3月龄：</strong>生长曲线、抬头与追视、喂养与维生素D核对</li>
+                        <li><strong>6月龄：</strong>辅食评估、血常规（6—8月龄一次）、口腔检查</li>
+                        <li><strong>8月龄：</strong>坐爬与捏取评估、发育筛查、营养与睡眠</li>
+                        <li><strong>12月龄：</strong>周岁健康管理、综合发育评估、听力筛查</li>
+                        <li><strong>18月龄：</strong>语言与孤独症风险筛查、血常规一次</li>
+                        <li><strong>24月龄：</strong>语言与社交评估、听力筛查、口腔检查</li>
+                        <li><strong>30月龄：</strong>两步指令与动作协调、血常规一次</li>
+                        <li><strong>36月龄：</strong>入园体检、听力筛查、全面发育评估</li>
+                    </ul>
+                </div>
+
+                <div class="childcare-card growth-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">📊</span>
+                        <h3>生长指标监测</h3>
+                    </div>
+                    <p>把每次测量的体重、身长、头围录进来，页面自动绘制趋势。数据只保存在本机浏览器，并随"记录备份"一起导出。</p>
+
+                    <form id="growthForm" class="growth-form" aria-label="添加生长记录">
+                        <label>测量日期
+                            <input id="growthDate" type="date" required>
+                        </label>
+                        <label>体重 kg
+                            <input id="growthWeight" type="number" min="1" max="40" step="0.01" inputmode="decimal" placeholder="如 7.85">
+                        </label>
+                        <label>身长 cm
+                            <input id="growthLength" type="number" min="30" max="130" step="0.1" inputmode="decimal" placeholder="如 68.5">
+                        </label>
+                        <label>头围 cm
+                            <input id="growthHead" type="number" min="25" max="60" step="0.1" inputmode="decimal" placeholder="如 43.0">
+                        </label>
+                        <button class="primary-button growth-add" type="submit">添加记录</button>
+                    </form>
+                    <p id="growthFormError" class="growth-error" role="alert" hidden></p>
+
+                    <div class="growth-tabs" role="group" aria-label="选择要查看的生长指标">
+                        <button class="growth-tab active" data-metric="weight" type="button"><span class="dot" aria-hidden="true" style="background:#2f7d3e;"></span>体重 kg</button>
+                        <button class="growth-tab" data-metric="length" type="button"><span class="dot" aria-hidden="true" style="background:#cd8748;"></span>身长 cm</button>
+                        <button class="growth-tab" data-metric="head" type="button"><span class="dot" aria-hidden="true" style="background:#7d63ac;"></span>头围 cm</button>
+                    </div>
+
+                    <div class="growth-chart-wrap">
+                        <svg id="growthChart" viewBox="0 0 640 280" role="img" aria-label="生长趋势图" preserveAspectRatio="xMidYMid meet"></svg>
+                        <div id="growthTooltip" class="growth-tooltip" role="status" hidden></div>
+                    </div>
+                    <p class="chart-note">本图展示家长自测记录的趋势，仅看变化方向；是否处于正常百分位区间，以儿保门诊使用的 WS/T 423—2022 或 WHO 标准为准。如连续3个月增长停滞或明显下降，应咨询儿保医生。</p>
+
+                    <table class="growth-table" aria-label="生长记录列表">
+                        <thead>
+                            <tr><th>日期</th><th>月龄</th><th>体重 kg</th><th>身长 cm</th><th>头围 cm</th><th><span class="sr-only">操作</span></th></tr>
+                        </thead>
+                        <tbody id="growthRecords"></tbody>
+                    </table>
+                    <p id="growthEmpty" class="growth-empty">还没有记录。建议把满月、3、6、8、12、18、24、30、36月龄儿保当天的测量值录进来。</p>
+                </div>
+
+                <div class="childcare-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">👶</span>
+                        <h3>发育里程碑</h3>
+                    </div>
+                    <div class="milestone-tabs">
+                        <button class="tab active" data-tab="gross">大运动</button>
+                        <button class="tab" data-tab="fine">精细动作</button>
+                        <button class="tab" data-tab="language">语言</button>
+                        <button class="tab" data-tab="social">社交</button>
+                    </div>
+                    <div class="milestone-content">
+                        <div class="milestone-panel active" id="gross">
+                            <ul>
+                                <li><strong>2月：</strong>俯卧时能抬头</li>
+                                <li><strong>4月：</strong>扶坐时头稳</li>
+                                <li><strong>6月：</strong>独坐片刻、尝试翻身</li>
+                                <li><strong>8月：</strong>会爬、扶站</li>
+                                <li><strong>12月：</strong>扶走、独站</li>
+                                <li><strong>15月：</strong>独走几步到走稳</li>
+                                <li><strong>18月：</strong>走得稳、尝试跑</li>
+                                <li><strong>24月：</strong>双脚跳、踢球</li>
+                                <li><strong>36月：</strong>单脚站片刻</li>
+                            </ul>
+                        </div>
+                        <div class="milestone-panel" id="fine">
+                            <ul>
+                                <li><strong>2月：</strong>双手逐渐张开</li>
+                                <li><strong>4月：</strong>伸手抓握玩具</li>
+                                <li><strong>6月：</strong>双手换手、敲打玩具</li>
+                                <li><strong>8月：</strong>拇食指捏取小物</li>
+                                <li><strong>12月：</strong>拇食指对捏、放物入杯</li>
+                                <li><strong>18月：</strong>叠2—3块积木、握笔涂鸦</li>
+                                <li><strong>24月：</strong>叠4—6块积木、翻单页书</li>
+                                <li><strong>30月：</strong>模仿画直线</li>
+                                <li><strong>36月：</strong>模仿画圆、穿大珠</li>
+                            </ul>
+                        </div>
+                        <div class="milestone-panel" id="language">
+                            <ul>
+                                <li><strong>2月：</strong>发出咕咕声</li>
+                                <li><strong>4月：</strong>咿呀学语、笑出声</li>
+                                <li><strong>6月：</strong>发出mama/baba音节（无意识）</li>
+                                <li><strong>9月：</strong>听名字回头、理解“不”</li>
+                                <li><strong>12月：</strong>有意识叫爸/妈</li>
+                                <li><strong>18月：</strong>会说5—20个词</li>
+                                <li><strong>24月：</strong>双词短语（如“妈妈抱”）</li>
+                                <li><strong>30月：</strong>会说“我”等人称代词</li>
+                                <li><strong>36月：</strong>用简单句对话</li>
+                            </ul>
+                        </div>
+                        <div class="milestone-panel" id="social">
+                            <ul>
+                                <li><strong>2月：</strong>对人微笑</li>
+                                <li><strong>4月：</strong>逗笑出声</li>
+                                <li><strong>6月：</strong>对熟人和陌生人反应不同</li>
+                                <li><strong>9月：</strong>会挥手再见、依恋照护者</li>
+                                <li><strong>12月：</strong>玩躲猫猫、模仿动作</li>
+                                <li><strong>18月：</strong>指物分享兴趣</li>
+                                <li><strong>24月：</strong>与同伴平行游戏、有物权意识</li>
+                                <li><strong>30月：</strong>愿意轮流、安慰他人</li>
+                                <li><strong>36月：</strong>理解简单规则、角色扮演</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="chart-note">以上为常见发展观察点，供记录并与儿保医生讨论；宝宝节奏各不相同，不替代 WS/T 580—2017 专业发育测评。</p>
+                </div>
+
+                <div class="childcare-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">💗</span>
+                        <h3>常见儿保问题</h3>
+                    </div>
+                    <details class="faq-item">
+                        <summary>什么情况下需要提前就医？</summary>
+                        <p>如出现以下情况，建议提前咨询或就诊：连续3个月生长停滞或下降；4月龄仍不注视人脸、不追视；12月龄不会扶站；18月龄不会独走、无意识叫爸妈；24月龄无有意义的词汇；30月龄不会说简单句子；任何已掌握的能力出现倒退。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>如何判断营养是否充足？</summary>
+                        <p>重点关注体重、身长增长曲线上稳定的百分位，精神状态良好，皮肤有光泽，头发有光泽，指甲坚韧，肌肉发达，不贫血。定期儿保时可检查血常规。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>常见钙、铁、锌补充误区</summary>
+                        <p>除非医生明确诊断为缺乏，否则不建议自行补充。母乳和配方奶均能提供充足钙质；6个月后及时添加富铁辅食；锌补充需经检测确认。</p>
+                    </details>
+                </div>
+            </div>
         </section>
 
         <aside class="safety-note">
@@ -218,7 +393,7 @@
                 </div>
             </div>
             <div class="source-grid">
-                <article class="source-card">
+                <article class="source-card" >
                     <span class="source-number">01</span>
                     <h3>疫苗程序</h3>
                     <p>2026版国家免疫程序与中国疾控/国家疾控局解读互核。已采用百白破2、4、6、18月龄新程序。</p>
@@ -226,7 +401,7 @@
                     <a href="https://www.chinacdc.cn/jkyj/mygh02/yfjzfw/mycx/202607/t20260709_1837982.html" target="_blank" rel="noopener noreferrer">中国疾控：2026版解读</a>
                     <a href="https://www.ndcpa.gov.cn/jbkzzx/c100040/common/content/content_1877524874852421632.html" target="_blank" rel="noopener noreferrer">国家疾控局：百白破程序调整问答</a>
                 </article>
-                <article class="source-card">
+                <article class="source-card" >
                     <span class="source-number">02</span>
                     <h3>饮食与补充</h3>
                     <p>中国营养学会2022指南与WHO 2023指南互核：满6月龄左右添加辅食、优先富铁食物、顺应喂养、限制盐糖。</p>
@@ -234,7 +409,7 @@
                     <a href="http://dg.cnsoc.org/article/04/8a2389fd5520b4f30155a5d4d78621c4.html" target="_blank" rel="noopener noreferrer">中国营养学会：7—24月龄</a>
                     <a href="https://www.who.int/publications/i/item/9789240081864" target="_blank" rel="noopener noreferrer">WHO：6—23月龄辅食指南</a>
                 </article>
-                <article class="source-card">
+                <article class="source-card" >
                     <span class="source-number">03</span>
                     <h3>行为习惯与安全</h3>
                     <p>国家0—3岁养育指南、WHO活动睡眠指南与CDC安全睡眠资料互核，强调回应、规律、安全和真实亲子互动。</p>
@@ -242,7 +417,7 @@
                     <a href="https://www.who.int/publications/i/item/9789241550536" target="_blank" rel="noopener noreferrer">WHO：5岁以下活动、静态行为与睡眠</a>
                     <a href="https://archive.cdc.gov/www_cdc_gov/vitalsigns/safesleep/infographic.html" target="_blank" rel="noopener noreferrer">CDC：婴儿安全睡眠</a>
                 </article>
-                <article class="source-card">
+                <article class="source-card" >
                     <span class="source-number">04</span>
                     <h3>疫苗比较与价格</h3>
                     <p>广州服务费采用广东省现行官方标准；疫苗费参考公开公示或目录整理，六价产品另与药监局批准信息核对。未能官方复核的广州2026单价均标为“待门诊确认”。</p>
@@ -252,8 +427,25 @@
                     <a href="https://health.sina.cn/news/2023-02-20/detail-imyhiqcv5293346.d.html?from=wap" target="_blank" rel="noopener noreferrer">广东五联599元历史价格报道（2023）</a>
                     <a href="http://www.ycq.gov.cn/zwgk/gkzt/ggqsygk/wsjkly/ycqjbyfkzzx/zzbs/202505/t20250520_2137708.html" target="_blank" rel="noopener noreferrer">13价肺炎公开价格样例</a>
                 </article>
+                <article class="source-card">
+                    <span class="source-number">05</span>
+                    <h3>儿保体检与生长</h3>
+                    <p>体检频次与血常规、听力筛查月龄依据《国家基本公共卫生服务规范（第三版）》0—6岁儿童健康管理服务规范整理；生长评估以 WS/T 423—2022《7岁以下儿童生长标准》为主，与 WHO 儿童生长标准互核。</p>
+                    <a href="https://www.nhc.gov.cn/" target="_blank" rel="noopener noreferrer">国家卫生健康委官网（站内检索“国家基本公共卫生服务规范（第三版）”）</a>
+                    <a href="https://wsbz.nhc.gov.cn/wsbzmh/" target="_blank" rel="noopener noreferrer">卫生健康标准网（检索 WS/T 423—2022）</a>
+                    <a href="https://www.who.int/tools/child-growth-standards" target="_blank" rel="noopener noreferrer">WHO：儿童生长标准</a>
+                </article>
+                <article class="source-card">
+                    <span class="source-number">06</span>
+                    <h3>发育行为与预警征象</h3>
+                    <p>发育观察点参考 WS/T 580—2017《0岁～6岁儿童发育行为评估量表》的评估领域与国家卫健委《儿童心理行为发育问题预警征象筛查表》，并与 CDC 发育里程碑互核；本页清单仅作提醒，不替代专业测评。</p>
+                    <a href="https://wsbz.nhc.gov.cn/wsbzmh/" target="_blank" rel="noopener noreferrer">卫生健康标准网（检索 WS/T 580—2017）</a>
+                    <a href="https://www.nhc.gov.cn/" target="_blank" rel="noopener noreferrer">国家卫生健康委官网（站内检索“预警征象筛查表”）</a>
+                    <a href="https://www.cdc.gov/ncbddd/actearly/milestones/index.html" target="_blank" rel="noopener noreferrer">CDC：发育里程碑（交叉参考）</a>
+                    <a href="https://www.gov.cn/zhengce/content/2021-09/27/content_5639414.htm" target="_blank" rel="noopener noreferrer">中国政府网：《中国儿童发展纲要（2021—2030年）》</a>
+                </article>
             </div>
-            <p class="verification-note">验证结论：对相同核心建议保留；存在版本或地区差异的项目均标注“以现行说明书/当地门诊为准”，未用商业宣传替代效果证据。</p>
+            <p class="verification-note">验证结论：疫苗与喂养建议已与国家疾控局、中国营养学会及WHO互核；儿保体检频次、血常规（6—8、18、30月龄）与听力筛查（6、12、24、36月龄）安排依据《国家基本公共卫生服务规范（第三版）》，其余检查项目标注“以当地门诊为准”；发育观察点仅作提醒，不替代 WS/T 580—2017 专业测评。</p>
         </section>
 
         <footer>
